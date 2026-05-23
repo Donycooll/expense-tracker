@@ -55,7 +55,7 @@ export const Home = () => {
         >
           <Typography
             variant="h3"
-            style={{ fontWeight: "bold", margin: "10px 0 20px" }}
+            style={{ fontWeight: "bold", margin: "10px 0 20px", color: balance >= 10000 ? "black" : "red" }}
           >
             {balance.toLocaleString()} $
           </Typography>

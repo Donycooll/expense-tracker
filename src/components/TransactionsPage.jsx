@@ -1,4 +1,4 @@
-import { Typography } from "@mui/material";
+import { Typography, Stack } from "@mui/material";
 
 import { Header } from "./Header";
 
@@ -25,7 +25,9 @@ export const TransactionsPage = () => {
       <Typography variant="h4" style={{ margin: "20px 0" }}>
         جميع المعاملات
       </Typography>
+      <Stack style={{ paddingBottom: "70px" }}>
       {transactionJsx}
+      </Stack>
     </div>
   );
 };
