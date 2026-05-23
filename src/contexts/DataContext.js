@@ -45,7 +45,7 @@ export const DataContextProvider = ({ children }) => {
   return (
     <DataContext.Provider value={value}>
       {children}
-      <BottomNav nav={nav} setNav={setNav} setOpenAdd={setOpenAdd} />
+      {user && <BottomNav nav={nav} setNav={setNav} setOpenAdd={setOpenAdd} />}
       <AddDialog open={openAdd} setOpen={setOpenAdd} />
     </DataContext.Provider>
   );
