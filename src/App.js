@@ -7,6 +7,7 @@ import { AuthProvider } from "./contexts/AuthContext";
 import { ProtectedRoute } from "./components/ProtectedRoute";
 import { DataContextProvider } from "./contexts/DataContext";
 import { TransactionsPage } from "./components/TransactionsPage";
+import { ReportsPage } from "./components/ReportsPage";
 
 function App() {
   return (
@@ -21,8 +22,23 @@ function App() {
               </ProtectedRoute>
             }
           />
+          <Route
+            path="/transactions"
+            element={
+              <ProtectedRoute>
+                <TransactionsPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/reports"
+            element={
+              <ProtectedRoute>
+                <ReportsPage />
+              </ProtectedRoute>
+            }
+          />
           <Route path="/login" element={<Login />} />
-          <Route path="/transactions" element={<TransactionsPage />} />
         </Routes>
       </DataContextProvider>
     </AuthProvider>

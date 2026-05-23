@@ -19,6 +19,7 @@ export const Header = () => {
     }
   };
 
+
   return (
     <Stack
       direction={"row"}
@@ -29,7 +30,15 @@ export const Header = () => {
           <ExitToAppIcon style={{ fontSize: "35px", color: "red" }} />
         </IconButton>
         <IconButton>
-          <AccountCircleRoundedIcon style={{ fontSize: "35px" }} />
+          {user.photoURL ? (
+            <img
+              src={user.photoURL}
+              alt="Avatar"
+              style={{ width: "35px", height: "35px", borderRadius: "50%" }}
+            />
+          ) : (
+            <AccountCircleRoundedIcon style={{ fontSize: "35px" }} />
+          )}
         </IconButton>
       </Stack>
       <Typography variant="h6">
