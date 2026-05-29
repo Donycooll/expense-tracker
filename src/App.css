@@ -40,17 +40,20 @@
 @font-face {
   font-family: ReadexPro;
   weight: 400;
+  font-display: swap;
   src: url('../public/fonts/ReadexPro-Regular.ttf') format('truetype');
 }
 
 @font-face {
   font-family: ReadexPro;
   weight: 500;
+  font-display: swap;
   src: url('../public/fonts/ReadexPro-Medium.ttf') format('truetype');
 }
 
 @font-face {
   font-family: ReadexPro;
   weight: 600;
+  font-display: swap;
   src: url('../public/fonts/ReadexPro-Bold.ttf') format('truetype');
 }
