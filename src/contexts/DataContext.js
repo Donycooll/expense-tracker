@@ -1,7 +1,7 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { db } from "../firebaseConfig";
 import { useAuth } from "./AuthContext";
-import { collection, addDoc, onSnapshot } from "firebase/firestore";
+import { collection, addDoc, onSnapshot, updateDoc, doc, deleteDoc } from "firebase/firestore";
 import { BottomNav } from "../components/BottomNav";
 import { AddDialog } from "../components/AddDialog";
 
@@ -25,6 +25,21 @@ export const DataContextProvider = ({ children }) => {
     });
   };
 
+  const handleEditData = (id, amount, dateTime, title, transactionType) => {
+    const docRef = doc(db, "transactions", id);
+    updateDoc(docRef, {
+      amount: amount,
+      dateTime: dateTime,
+      title: title,
+      transactionType: transactionType,
+    });
+  };
+
+  const handleDelete = (id) => {
+    const docRef = doc(db, "transactions", id);
+    deleteDoc(docRef);
+  };
+
   useEffect(() => {
     const fetchData = () => {
       try {
@@ -41,7 +56,7 @@ export const DataContextProvider = ({ children }) => {
     fetchData();
   }, [user?.uid]);
 
-  const value = { data, handleAddData };
+  const value = { data, handleAddData, openAdd, setOpenAdd, handleEditData, handleDelete };
   return (
     <DataContext.Provider value={value}>
       {children}

@@ -18,11 +18,8 @@ export const BottomNav = ({ nav, setNav, setOpenAdd }) => {
         width: "100%",
         position: "fixed",
         bottom: "0",
-        left: "0",
-        right: "0",
-        margin: "10px auto",
         zIndex: "1000",
-        padding: "10px 5px",
+        padding: "10px 0px",
       }}
     >
       <BottomNavigation
