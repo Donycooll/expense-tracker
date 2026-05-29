@@ -1,7 +1,7 @@
 import "./App.css";
 import { Route, Routes } from "react-router-dom";
 
-import {ThemeProvider, createTheme} from "@mui/material/styles";
+import { ThemeProvider, createTheme } from "@mui/material/styles";
 
 import { Home } from "./components/Home";
 import { Login } from "./components/Login";
@@ -19,9 +19,9 @@ const theme = createTheme({
 
 function App() {
   return (
-    <AuthProvider>
-      <DataContextProvider>
-        <ThemeProvider theme={theme}>
+    <ThemeProvider theme={theme}>
+      <AuthProvider>
+        <DataContextProvider>
           <Routes>
             <Route
               path="/"
@@ -49,9 +49,9 @@ function App() {
             />
             <Route path="/login" element={<Login />} />
           </Routes>
-        </ThemeProvider>
-      </DataContextProvider>
-    </AuthProvider>
+        </DataContextProvider>
+      </AuthProvider>
+    </ThemeProvider>
   );
 }
 
