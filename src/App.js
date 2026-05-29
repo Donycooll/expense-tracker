@@ -13,7 +13,7 @@ import { ReportsPage } from "./components/ReportsPage";
 
 const theme = createTheme({
   typography: {
-    fontFamily: ["ReadexPro"],
+    fontFamily: "ReadexPro",
   },
 });
 
