@@ -49,7 +49,7 @@ export const Home = () => {
           margin: "20px 0",
         }}
       >
-        <Typography variant="h2">الرصيد</Typography>
+        <Typography variant="h4">الرصيد</Typography>
         <Stack
           style={{ alignItems: "center", justifyContent: "space-between" }}
         >

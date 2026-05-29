@@ -34,7 +34,7 @@ export const Login = () => {
           padding: "20px",
         }}
       >
-        <Typography variant="h4" sx={{ fontWeight: "bold" }}>
+        <Typography variant="h5" sx={{ fontWeight: "bold" }}>
           تسجيل الدخول / إنشاء حساب
         </Typography>
         <Button
@@ -43,7 +43,7 @@ export const Login = () => {
           onClick={handleSignIn}
         >
           <GoogleIcon style={{ marginLeft: "20px" }} />
-          <Typography variant="h5"> استخدام حساب جوجل</Typography>
+          <Typography variant="h6"> استخدام حساب جوجل</Typography>
         </Button>
       </Stack>
     </div>

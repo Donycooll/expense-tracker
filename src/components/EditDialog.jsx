@@ -55,11 +55,11 @@ export const EditDialog = ({ transaction, open, setOpen }) => {
         onClose={() => setOpen(false)}
         style={{ direction: "rtl" }}
       >
-        <DialogTitle variant="h4" style={{ fontWeight: "bold" }}>
+        <DialogTitle variant="h5" style={{ fontWeight: "bold" }}>
           تعديل دخل / منصرف
         </DialogTitle>
-        <DialogContent>
-          <form onSubmit={submitData} id="edit-form">
+        <DialogContent >
+          <form onSubmit={submitData} id="edit-form" >
             {/*  */}
             <ToggleButtonGroup
               dir="ltr"
@@ -149,7 +149,7 @@ export const EditDialog = ({ transaction, open, setOpen }) => {
         onClose={() => setOpenDeleteDialgo(false)}
         style={{ direction: "rtl" }}
       >
-        <DialogTitle variant="h6" style={{ fontWeight: "bold", color: "red" }}>
+        <DialogTitle variant="body1" style={{ fontWeight: "bold", color: "red" }}>
           هل أنت متأكد من حذف هذه العملية؟
         </DialogTitle>
         <DialogActions style={{ gap: "10px" }}>

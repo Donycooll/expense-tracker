@@ -36,3 +36,21 @@
     transform: rotate(360deg);
   }
 }
+
+@font-face {
+  font-family: ReadexPro;
+  weight: 400;
+  src: url('../public/fonts/ReadexPro-Regular.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: ReadexPro;
+  weight: 500;
+  src: url('../public/fonts/ReadexPro-Medium.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: ReadexPro;
+  weight: 600;
+  src: url('../public/fonts/ReadexPro-Bold.ttf') format('truetype');
+}
