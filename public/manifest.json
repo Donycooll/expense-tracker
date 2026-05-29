@@ -5,11 +5,10 @@
     {
       "src": "original-3bbe3edc63b9d51358b8995ad439d186.webp",
       "sizes": "192x192",
-      "type": "image/webp",
-      "purpose": "any"
+      "type": "image/webp"
     }
   ],
-  "start_url": "./index.html",
+  "start_url": ".",
   "display": "standalone",
   "theme_color": "#000000",
   "background_color": "#ffffff"
