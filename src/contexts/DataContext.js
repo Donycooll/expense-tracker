@@ -1,7 +1,7 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { db } from "../firebaseConfig";
 import { useAuth } from "./AuthContext";
-import { collection, addDoc, onSnapshot, updateDoc, doc, deleteDoc } from "firebase/firestore";
+import { collection, addDoc, onSnapshot, updateDoc, doc, deleteDoc, orderBy, query, serverTimestamp } from "firebase/firestore";
 import { BottomNav } from "../components/BottomNav";
 import { AddDialog } from "../components/AddDialog";
 
@@ -22,6 +22,7 @@ export const DataContextProvider = ({ children }) => {
       title: title,
       transactionType: transactionType,
       uid: user.uid,
+      createdAt: serverTimestamp(),
     });
   };
 
@@ -43,7 +44,8 @@ export const DataContextProvider = ({ children }) => {
   useEffect(() => {
     const fetchData = () => {
       try {
-        onSnapshot(collection(db, "transactions"), (snapshot) => {
+        const q = query(collection(db, 'transactions'), orderBy('createdAt', 'desc'))
+        onSnapshot(q, (snapshot) => {
           const finalData = snapshot.docs
             .map((doc) => ({ ...doc.data(), id: doc.id }))
             .filter((transaction) => transaction.uid === user?.uid);
