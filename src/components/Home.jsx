@@ -8,29 +8,29 @@ import { useNavigate } from "react-router-dom";
 import { useDataContext } from "../contexts/DataContext";
 
 import { Header } from "./Header";
-import { useEffect, useMemo, useState } from "react";
+// import { useEffect, useState } from "react";
 import { TransactionJSX } from "./TransactionJSX";
 
 export const Home = () => {
-  const { data } = useDataContext();
-  const [loading, setLoading] = useState(true);
+  const { data, balance, loading } = useDataContext();
+  // const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    setTimeout(() => {
-      setLoading(false);
-    }, 2000);
-  }, []);
+  // useEffect(() => {
+  //   setTimeout(() => {
+  //     setLoading(false);
+  //   }, 2000);
+  // }, []);
 
-  const balance = useMemo(() => {
-    return data.reduce((acc, transaction) => {
-      if (transaction.transactionType === "دخل") {
-        return acc + Number(transaction.amount);
-      } else if (transaction.transactionType === "منصرف") {
-        return acc - Number(transaction.amount);
-      }
-      return acc;
-    }, 0);
-  }, [data]);
+  // const balance = useMemo(() => {
+  //   return data.reduce((acc, transaction) => {
+  //     if (transaction.transactionType === "دخل") {
+  //       return acc + Number(transaction.amount);
+  //     } else if (transaction.transactionType === "منصرف") {
+  //       return acc - Number(transaction.amount);
+  //     }
+  //     return acc;
+  //   }, 0);
+  // }, [data]);
 
   const navigate = useNavigate();
 

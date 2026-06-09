@@ -1,22 +1,37 @@
-import { Typography, Stack, Skeleton } from "@mui/material";
+import {
+  Typography,
+  Stack,
+  Skeleton,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+} from "@mui/material";
 
 import { Header } from "./Header";
 
 import { useDataContext } from "../contexts/DataContext";
 import { TransactionJSX } from "./TransactionJSX";
-import { useEffect, useState } from "react";
+import { useMemo, useState } from "react";
 
 export const TransactionsPage = () => {
-  const { data } = useDataContext();
-  const [loading, setLoading] = useState(true);
+  const { data, loading } = useDataContext();
+  const [transactionType, setTransactionType] = useState(
+    localStorage.getItem("transactionsFilter") || "الكل",
+  );
 
-  useEffect(() => {
-    setTimeout(() => {
-      setLoading(false);
-    }, 2000);
-  }, []);
+  let filteredData = useMemo(() => {
+    return data.filter((transaction) => {
+      if (transactionType === "الدخل") {
+        return transaction.transactionType === "دخل";
+      } else if (transactionType === "المنصرف") {
+        return transaction.transactionType === "منصرف";
+      }
+      return true;
+    });
+  }, [transactionType, data]);
 
-  const transactionJsx = data.map((transaction) => (
+  const transactionJsx = filteredData.map((transaction) => (
     <TransactionJSX transaction={transaction} key={transaction.id} />
   ));
 
@@ -26,6 +41,23 @@ export const TransactionsPage = () => {
       <Typography variant="h4" style={{ margin: "20px 0" }}>
         جميع المعاملات
       </Typography>
+      <FormControl style={{ marginBottom: "20px" }} fullWidth>
+        <InputLabel id="demo-simple-select-label">نوع العملية</InputLabel>
+        <Select
+          labelId="demo-simple-select-label"
+          id="demo-simple-select"
+          value={transactionType}
+          label="نوع العملية"
+          onChange={(event) => {
+            setTransactionType(event.target.value);
+            localStorage.setItem("transactionsFilter", event.target.value);
+          }}
+        >
+          <MenuItem value="الكل">الكل</MenuItem>
+          <MenuItem value="الدخل">الدخل</MenuItem>
+          <MenuItem value="المنصرف">المنصرف</MenuItem>
+        </Select>
+      </FormControl>
       <Stack style={{ paddingBottom: "70px" }}>
         {!loading ? (
           data.length > 0 ? (

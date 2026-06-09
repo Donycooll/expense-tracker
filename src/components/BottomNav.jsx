@@ -27,9 +27,11 @@ export const BottomNav = ({ nav, setNav, setOpenAdd }) => {
         onChange={(event, newValue) => {
           setNav(newValue);
           if (newValue === "home") {
-            navigate("/");
+            navigate("/", { replace: true });
+            localStorage.setItem('nav', 'home');
           } else if (newValue === "reports") {
-            navigate("/reports");
+            navigate("/reports", { replace: true });
+            localStorage.setItem('nav', 'reports');
           }
         }}
       >

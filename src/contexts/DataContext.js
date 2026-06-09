@@ -1,7 +1,17 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useMemo, useState } from "react";
 import { db } from "../firebaseConfig";
 import { useAuth } from "./AuthContext";
-import { collection, addDoc, onSnapshot, updateDoc, doc, deleteDoc, orderBy, query, serverTimestamp } from "firebase/firestore";
+import {
+  collection,
+  addDoc,
+  onSnapshot,
+  updateDoc,
+  doc,
+  deleteDoc,
+  orderBy,
+  query,
+  serverTimestamp,
+} from "firebase/firestore";
 import { BottomNav } from "../components/BottomNav";
 import { AddDialog } from "../components/AddDialog";
 
@@ -11,6 +21,7 @@ export const DataContextProvider = ({ children }) => {
   const { user } = useAuth();
   const dataCollectionRef = collection(db, "transactions");
   const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const [nav, setNav] = useState("home");
   const [openAdd, setOpenAdd] = useState(false);
@@ -44,7 +55,10 @@ export const DataContextProvider = ({ children }) => {
   useEffect(() => {
     const fetchData = () => {
       try {
-        const q = query(collection(db, 'transactions'), orderBy('createdAt', 'desc'))
+        const q = query(
+          collection(db, "transactions"),
+          orderBy("createdAt", "desc"),
+        );
         onSnapshot(q, (snapshot) => {
           const finalData = snapshot.docs
             .map((doc) => ({ ...doc.data(), id: doc.id }))
@@ -58,7 +72,50 @@ export const DataContextProvider = ({ children }) => {
     fetchData();
   }, [user?.uid]);
 
-  const value = { data, handleAddData, openAdd, setOpenAdd, handleEditData, handleDelete };
+  useEffect(() => {
+    localStorage.getItem("nav") && setNav(localStorage.getItem("nav"));
+  }, []);
+
+  const income = useMemo(() => {
+    return data.reduce((acc, transaction) => {
+      if (transaction.transactionType === "دخل") {
+        return acc + Number(transaction.amount);
+      }
+      return acc;
+    }, 0);
+  }, [data]);
+
+  const outcome = useMemo(() => {
+    return data.reduce((acc, transaction) => {
+      if (transaction.transactionType === "منصرف") {
+        return acc + Number(transaction.amount);
+      }
+      return acc;
+    }, 0);
+  }, [data]);
+
+  const balance = useMemo(() => {
+    return Number(income) - Number(outcome);
+  }, [income, outcome]);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setLoading(false);
+    }, 2000);
+  }, []);
+
+  const value = {
+    data,
+    handleAddData,
+    openAdd,
+    setOpenAdd,
+    handleEditData,
+    handleDelete,
+    balance,
+    income,
+    outcome,
+    loading,
+  };
   return (
     <DataContext.Provider value={value}>
       {children}
