@@ -13,7 +13,7 @@ import CallReceivedRoundedIcon from "@mui/icons-material/CallReceivedRounded";
 
 import { Header } from "./Header";
 import { Piechart } from "./PieChart";
-import { Barchart } from "./BarChart";
+// import { Barchart } from "./BarChart";
 
 import { useDataContext } from "../contexts/DataContext";
 import { useEffect, useState } from "react";
@@ -22,8 +22,9 @@ export const ReportsPage = () => {
   const { balance, income, outcome, loading, data } = useDataContext();
 
   const [dateRange, setDateRange] = useState("الكل");
-
+  // eslint-disable-next-line
   const [currData, setCurrData] = useState(data);
+  const [currBalance, setCurrBalance] = useState(balance);
   const [currIncome, setCurrIncome] = useState(income);
   const [currOutcome, setCurrOutcome] = useState(outcome);
 
@@ -31,11 +32,56 @@ export const ReportsPage = () => {
     !loading && setCurrIncome(income);
     !loading && setCurrOutcome(outcome);
     !loading && setCurrData(data);
-  }, [loading, income, outcome, data]);
+    !loading && setCurrBalance(balance);
+  }, [loading, income, outcome, balance, data]);
 
-  const handleChangeDateRange = (event) => {
-    setDateRange(event.target.value);
-  };
+  useEffect(() => {
+    let now = new Date();
+    let startDate = new Date(now);
+    if (dateRange === "هذا الاسبوع") {
+      startDate.setDate(startDate.getDate() - now.getDay());
+    } else if (dateRange === "هذا الشهر") {
+      startDate = new Date(now.getFullYear(), now.getMonth(), 1);
+    } else if (dateRange === "هذا العام") {
+      startDate = new Date(now.getFullYear(), 0, 1);
+    } else {
+      startDate = new Date(0);
+    }
+
+    now.setHours(23, 0, 0, 0);
+    startDate.setHours(0, 0, 0, 0);
+
+    const newData = data.filter((transaction) => {
+      return (
+        new Date(transaction.dateTime) <= now &&
+        new Date(transaction.dateTime) >= startDate
+      );
+    });
+    setCurrData(newData);
+
+    const income = () => {
+      return newData.reduce((acc, transaction) => {
+        if (transaction.transactionType === "دخل") {
+          return acc + Number(transaction.amount);
+        }
+        return acc;
+      }, 0);
+    };
+
+    const outcome = () => {
+      return newData.reduce((acc, transaction) => {
+        if (transaction.transactionType === "منصرف") {
+          return acc + Number(transaction.amount);
+        }
+        return acc;
+      }, 0);
+    };
+    const balance = Number(income()) - Number(outcome());
+
+    setCurrIncome(income);
+    setCurrOutcome(outcome);
+    setCurrBalance(balance);
+  }, [dateRange, data]);
 
   return (
     <div style={{ direction: "rtl", padding: "20px", marginBottom: "70px" }}>
@@ -52,7 +98,7 @@ export const ReportsPage = () => {
             id="demo-simple-select"
             value={dateRange}
             label="التاريخ"
-            onChange={handleChangeDateRange}
+            onChange={(e) => setDateRange(e.target.value)}
           >
             <MenuItem value="الكل">الكل</MenuItem>
             <MenuItem value="هذا الاسبوع">هذا الاسبوع</MenuItem>
@@ -78,11 +124,11 @@ export const ReportsPage = () => {
             style={{
               fontWeight: "bold",
               margin: "10px 0 20px",
-              color: balance >= 10000 ? "black" : "red",
+              color: currBalance >= 10000 ? "black" : "red",
             }}
           >
             {!loading ? (
-              balance.toLocaleString() + " $"
+              currBalance.toLocaleString() + " $"
             ) : (
               <Skeleton variant="text" width="200px" />
             )}
@@ -108,7 +154,7 @@ export const ReportsPage = () => {
             <Typography style={{ marginRight: "10px" }}>الدخل</Typography>
           </Stack>
           <Typography style={{ marginRight: "10px" }}>
-            {income.toLocaleString() + " $"}
+            {currIncome.toLocaleString() + " $"}
           </Typography>
         </Stack>
         <Stack
@@ -125,16 +171,16 @@ export const ReportsPage = () => {
             <Typography style={{ marginRight: "10px" }}>المنصرف</Typography>
           </Stack>
           <Typography style={{ marginRight: "10px" }}>
-            {Math.abs(outcome).toLocaleString() + " $"}
+            {Math.abs(currOutcome).toLocaleString() + " $"}
           </Typography>
         </Stack>
       </Stack>
       <Stack style={{ justifyContent: "center", marginTop: "20px" }}>
         <Piechart income={currIncome} outcome={currOutcome} />
       </Stack>
-      <Stack style={{ justifyContent: "center", marginTop: "20px" }}>
+      {/* <Stack style={{ justifyContent: "center", marginTop: "20px" }}>
         <Barchart data={currData} />
-      </Stack>
+      </Stack> */}
     </div>
   );
 };

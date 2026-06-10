@@ -15,6 +15,8 @@ import {
 import { BottomNav } from "../components/BottomNav";
 import { AddDialog } from "../components/AddDialog";
 
+import { useNavigate } from "react-router-dom";
+
 const DataContext = createContext({});
 
 export const DataContextProvider = ({ children }) => {
@@ -24,6 +26,7 @@ export const DataContextProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
 
   const [nav, setNav] = useState("home");
+  const navigate = useNavigate();
   const [openAdd, setOpenAdd] = useState(false);
 
   const handleAddData = (amount, dateTime, title, transactionType) => {
@@ -74,6 +77,10 @@ export const DataContextProvider = ({ children }) => {
 
   useEffect(() => {
     localStorage.getItem("nav") && setNav(localStorage.getItem("nav"));
+    localStorage.getItem("nav") === "home"
+      ? navigate("/", { replace: true })
+      : navigate("reports", { replace: true });
+    // eslint-disable-next-line
   }, []);
 
   const income = useMemo(() => {

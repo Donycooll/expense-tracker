@@ -1,9 +1,6 @@
 import { BarChart } from "@mui/x-charts/BarChart";
 
 export const Barchart = ({ data }) => {
-
-    
-
   return (
     <BarChart
       xAxis={[{ data: ["group A", "group B", "group C"] }]}
